@@ -21,5 +21,5 @@ class Post(db.Model):
     user_id: so.Mapped[int] = so.mapped_column(sqlalchemy.ForeignKey(User.id), index=True)
     author: so.Mapped[User] = so.relationship(back_populates='posts')
 
-    def __repr(self):
+    def __repr__(self):
         return '<Post {}'.format(self.body)
