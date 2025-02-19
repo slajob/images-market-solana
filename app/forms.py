@@ -27,3 +27,6 @@ class RegisterForm(FlaskForm):
         user = db.session.scalar(sqlalchemy.select(User).where(User.email == email.data))
         if user is not None:
             raise ValidationError('Email used by another user')
+
+class EmptyForm(FlaskForm):
+    submit = SubmitField('Submit')
