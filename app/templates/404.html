@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>File Not Found</h1>
+    <img src="{{ url_for('static', filename='images/error_cat.png') }}" alt="Error Cat">
+    <p><a href="{{ url_for('index') }}">Back</a></p>
+{% endblock %}
