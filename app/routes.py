@@ -18,15 +18,11 @@ def index():
         return redirect(url_for('index'))
     page = request.args.get('page', 1, type=int)
     query = sqlalchemy.select(Post).order_by(Post.timestamp.desc())
-    # query = db.session.scalars(sqlalchemy.select(Post).order_by(Post.timestamp.desc())).all()
     posts = db.paginate(query, page=page, per_page=app.config['POSTS_PER_PAGE'], error_out=False)
     next_url = url_for('index', page=posts.next_num) \
         if posts.has_next else None
     prev_url = url_for('index', page=posts.prev_num) \
         if posts.has_prev else None
-    # return render_template("index.html", title='Explore', posts=posts.items,
-    #                        next_url=next_url, prev_url=prev_url)
-
     return render_template('index.html', title='Home', posts=posts, form=form, next_url=next_url, prev_url=prev_url)
 
 @app.route('/login', methods=['GET', 'POST'])
