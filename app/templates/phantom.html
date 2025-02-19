@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phantom Wallet Integration</title>
+</head>
+<body>
+    <h1>Connect to Phantom Wallet</h1>
+    <button id="connect-button">Connect Wallet</button>
+    <div id="status"></div>
+
+    <script>
+        document.getElementById('connect-button').addEventListener('click', async () => {
+            if (window.phantom?.solana?.isPhantom) {
+                try {
+                    const response = await window.phantom.solana.connect();
+                    const publicKey = response.publicKey.toString();
+                    document.getElementById('status').textContent = 'Connected: ' + publicKey;
+
+                    // Send the public key to your Flask server
+                    await fetch('/save_public_key', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ publicKey })
+                    });
+                } catch (err) {
+                    console.error('Connection failed:', err);
+                    document.getElementById('status').textContent = 'Connection failed';
+                }
+            } else {
+                console.log('Phantom Wallet not found.');
+                document.getElementById('status').textContent = 'Phantom Wallet not found.';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from app import app, db
 from app.forms import LoginForm, RegisterForm, EmptyForm, PostForm
 from app.models import User, Post
@@ -106,3 +106,17 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
+
+@app.route('/save_public_key', methods=['POST'])
+def save_public_key():
+    data = request.json
+    public_key = data.get('publicKey')
+    if public_key:
+        # Logic to handle the public key (e.g., save to the database)
+        print(f'Received public key: {public_key}')
+        return jsonify({'status': 'success'}), 200
+    return jsonify({'error': 'No public key provided'}), 400
+
+@app.route('/wallet', methods=['GET', 'POST'])
+def wallet():
+    return render_template('phantom.html')
