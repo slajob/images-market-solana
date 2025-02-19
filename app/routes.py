@@ -4,6 +4,7 @@ from app.forms import LoginForm, RegisterForm, EmptyForm, PostForm
 from app.models import User, Post
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy
+from time import time
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -15,17 +16,7 @@ def index():
         db.session.commit()
         flash('You just posted!')
         return redirect(url_for('index'))
-    posts = [
-        {
-            'author': {'username': 'slajob'},
-            'body': 'Check my image and boost me!'
-        },
-        {
-            'author': {'username': 'Lola'},
-            'body': 'My latest job is out, check it out!'
-        }
-    ]
-
+    posts = db.session.scalars(sqlalchemy.select(Post).order_by(Post.timestamp.desc())).all()
     return render_template('index.html', title='Home', posts=posts, form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
