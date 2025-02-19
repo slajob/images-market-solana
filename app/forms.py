@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, Length
 import sqlalchemy
 from app import db
 from app.models import User
@@ -29,4 +29,8 @@ class RegisterForm(FlaskForm):
             raise ValidationError('Email used by another user')
 
 class EmptyForm(FlaskForm):
+    submit = SubmitField('Submit')
+
+class PostForm(FlaskForm):
+    post = TextAreaField('Say something', validators=[DataRequired(), Length(min=1, max=280)])
     submit = SubmitField('Submit')
