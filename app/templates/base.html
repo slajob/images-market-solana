@@ -8,7 +8,6 @@
       {% endif %}
     </head>
     <body>
-        <hr>
         <div>Market:
             <a href="{{ url_for('index') }}">Home</a>
             {% if current_user.is_anonymous %}
@@ -19,14 +18,15 @@
             {% endif %}
         </div>
         {%  with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
+            {% if messages %}
+                <ul>
             {% for message in messages %}
             <li>{{ message }}</li>
             {% endfor %}
         </ul>
-        {% endif %}
+            {% endif %}
         {% endwith %}
+        <hr>
         {% block content %}{% endblock %}
     </body>
 </html>
